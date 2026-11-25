@@ -9,10 +9,7 @@ body {
 .reveal {
   font-family: var(--font);
   color: var(--text);
-  background:
-    radial-gradient(900px 520px at 12% -10%, rgba(76, 141, 255, 0.16), transparent 60%),
-    radial-gradient(700px 480px at 100% 0%, rgba(155, 140, 255, 0.12), transparent 55%),
-    var(--bg);
+  background: #05060a;
 }
 
 .reveal .slides {
@@ -46,7 +43,7 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   height: 100%;
-  padding: 48px 64px 56px;
+  padding: 72px 96px 80px;
   position: relative;
   overflow: hidden;
 }
@@ -54,13 +51,13 @@ body {
 .slide::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -8% -6% auto;
+  height: 78%;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(150, 176, 220, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(150, 176, 220, 0.045) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse at 30% 20%, #000 10%, transparent 72%);
+  background:
+    radial-gradient(closest-side at 18% 42%, rgba(48, 104, 210, 0.55), transparent 74%),
+    radial-gradient(closest-side at 88% 18%, rgba(196, 122, 48, 0.38), transparent 72%);
+  filter: blur(8px);
 }
 
 .slide-top,
@@ -75,12 +72,24 @@ body {
 }
 
 .kicker {
-  margin: 0 0 18px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 560;
-  letter-spacing: 0.16em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0 0 36px;
+  color: var(--text);
+  --size: 24px;
+  font-size: 24px;
+  font-weight: 520;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+.kicker::after {
+  content: "";
+  width: 64px;
+  height: 3px;
+  background: var(--amber);
 }
 
 .reveal .progress {
@@ -89,12 +98,12 @@ body {
 }
 
 .reveal .slide-number {
-  right: 28px;
-  bottom: 16px;
+  right: 36px;
+  bottom: 22px;
   background: transparent;
   color: var(--muted);
   font-family: var(--font);
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .edge {

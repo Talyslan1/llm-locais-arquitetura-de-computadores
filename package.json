@@ -12,7 +12,7 @@
     "validate": "node --experimental-strip-types scripts/validate-data.ts"
   },
   "dependencies": {
-    "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource/poppins": "^5.3.0",
     "echarts": "^6.0.0",
     "lucide": "^1.0.0",
     "reveal.js": "^6.0.0"

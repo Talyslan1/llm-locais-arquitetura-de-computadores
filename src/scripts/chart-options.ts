@@ -27,14 +27,16 @@ function accentColor(accent: Accent): string {
   return token(`--${accent}`);
 }
 
+const chartFont = '"Poppins", sans-serif';
+
 function axisStyle() {
   const muted = token("--muted");
   const line = token("--line");
   return {
-    axisLabel: { color: muted, fontSize: 14 },
+    axisLabel: { color: muted, fontSize: 24, fontFamily: chartFont },
     axisLine: { lineStyle: { color: line } },
     splitLine: { lineStyle: { color: line } },
-    nameTextStyle: { color: muted },
+    nameTextStyle: { color: muted, fontSize: 22, fontFamily: chartFont },
   };
 }
 
@@ -84,29 +86,34 @@ function timeOption(modelId: string, duration: number): EChartsOption {
     };
   });
 
+  const isLargeModel = modelId === "qwen35-4b";
+
   return {
     backgroundColor: "transparent",
+    textStyle: { fontFamily: chartFont },
     animationDuration: duration,
     animationEasing: "cubicOut",
-    grid: { left: 16, right: 88, top: 12, bottom: 28, containLabel: true },
+    grid: { left: 8, right: 148, top: 8, bottom: 16, containLabel: true },
     tooltip: { trigger: "item", formatter: (params) => displayOf(params as { data?: unknown }) },
     xAxis: { type: "value", ...style },
     yAxis: {
       type: "category",
       inverse: true,
       data: bars.map((bar) => bar.name),
-      axisLabel: { color: text, fontSize: 16 },
+      axisLabel: { color: text, fontSize: 28, fontWeight: 540, fontFamily: chartFont },
     },
     series: [
       {
         type: "bar",
         data,
-        barWidth: 26,
+        barWidth: isLargeModel ? 48 : 42,
         label: {
           show: true,
           position: "right",
-          color: text,
-          fontSize: 16,
+          color: isLargeModel ? token("--cyan") : text,
+          fontSize: 28,
+          fontWeight: isLargeModel ? 600 : 500,
+          fontFamily: chartFont,
           formatter: (params) => displayOf(params as { data?: unknown }),
         },
       },
@@ -123,6 +130,7 @@ function memoryOption(duration: number): EChartsOption {
 
   return {
     backgroundColor: "transparent",
+    textStyle: { fontFamily: chartFont },
     animationDuration: duration,
     animationEasing: "cubicOut",
     title: panels.map((panel, index) => {
@@ -132,20 +140,25 @@ function memoryOption(duration: number): EChartsOption {
         left: `${left + width / 2}%`,
         top: 0,
         textAlign: "center" as const,
-        textStyle: { color: text, fontSize: 16, fontWeight: 500 },
+        textStyle: { color: text, fontSize: 26, fontWeight: 540, fontFamily: chartFont },
       };
     }),
     grid: panels.map((_, index) => ({
       left: `${gap + index * (width + gap)}%`,
       width: `${width}%`,
-      top: 48,
+      top: 56,
       bottom: 28,
     })),
     xAxis: panels.map((panel, index) => ({
       type: "category" as const,
       gridIndex: index,
       data: panel.bars.map((bar) => bar.label),
-      axisLabel: style.axisLabel,
+      axisLabel: {
+        ...style.axisLabel,
+        fontSize: 22,
+        fontWeight: 540,
+        color: (value?: string | number) => (String(value) === "4B" ? token("--cyan") : token("--muted")),
+      },
       axisLine: style.axisLine,
     })),
     yAxis: panels.map((panel, index) => {
@@ -162,17 +175,28 @@ function memoryOption(duration: number): EChartsOption {
       type: "bar" as const,
       xAxisIndex: index,
       yAxisIndex: index,
-      barWidth: 28,
-      data: panel.bars.map((bar) => ({
-        value: bar.value,
-        display: `${formatMeasured(bar.value, bar.decimals)} ${panel.unit}`,
-        itemStyle: { color: accentColor(panel.accent), borderRadius: [8, 8, 0, 0] },
-      })),
+      barWidth: 40,
+      data: panel.bars.map((bar) => {
+        const isLarge = bar.label === "4B";
+        return {
+          value: bar.value,
+          display: `${formatMeasured(bar.value, bar.decimals)} ${panel.unit}`,
+          itemStyle: {
+            color: accentColor(panel.accent),
+            opacity: isLarge ? 1 : 0.45,
+            borderRadius: [8, 8, 0, 0],
+            borderColor: isLarge ? token("--cyan") : "transparent",
+            borderWidth: isLarge ? 2 : 0,
+          },
+        };
+      }),
       label: {
         show: true,
         position: "top" as const,
         color: text,
-        fontSize: 12,
+        fontSize: 22,
+        fontWeight: 540,
+        fontFamily: chartFont,
         formatter: (params: { data?: unknown }) => displayOf(params),
       },
     })),
@@ -185,23 +209,70 @@ function resourceOption(duration: number): EChartsOption {
   const palette = [token("--blue"), token("--violet"), token("--cyan"), token("--amber"), "#7ea2ff", "#c3b6ff"];
   return {
     backgroundColor: "transparent",
+    textStyle: { fontFamily: chartFont },
     animationDuration: duration,
     animationEasing: "cubicOut",
-    legend: { bottom: 0, textStyle: { color: token("--muted") } },
-    grid: { left: 16, right: 16, top: 24, bottom: 64, containLabel: true },
-    tooltip: { trigger: "axis" },
+    legend: {
+      bottom: 0,
+      itemGap: 18,
+      textStyle: { color: token("--muted"), fontSize: 20, fontFamily: chartFont },
+    },
+    grid: { left: 16, right: 16, top: 36, bottom: 72, containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      formatter: (params) => {
+        const rows = Array.isArray(params) ? params : [params];
+        const title = rows[0] && "axisValueLabel" in rows[0] ? String(rows[0].axisValueLabel) : "";
+        const lines = rows.flatMap((row) => {
+          const data = "data" in row ? row.data : null;
+          if (data === null || data === undefined) {
+            return [];
+          }
+          const name = "seriesName" in row ? String(row.seriesName) : "";
+          return [`${name}: ${displayOf({ data })}`];
+        });
+        return [title, ...lines].filter((line) => line.length > 0).join("<br/>");
+      },
+    },
     xAxis: {
       type: "category",
       data: resourceColumns(),
-      axisLabel: { color: text, fontSize: 14 },
+      axisLabel: { color: text, fontSize: 24, fontWeight: 540, fontFamily: chartFont },
     },
-    yAxis: { type: "value", max: 100, ...style, axisLabel: { ...style.axisLabel, formatter: "{value}%" } },
-    series: resourceSeries().map((series, index) => ({
-      name: series.name,
-      type: "bar" as const,
-      data: series.values.map((value) => (value === null ? null : { value, display: `${value}%` })),
-      itemStyle: { color: palette[index] ?? token("--blue") },
-      barMaxWidth: 18,
-    })),
+    yAxis: {
+      type: "value",
+      max: 100,
+      ...style,
+      axisLabel: { ...style.axisLabel, formatter: "{value}%" },
+    },
+    series: resourceSeries().map((series, index) => {
+      const isLarge = series.name.endsWith("4B");
+      return {
+        name: series.name,
+        type: "bar" as const,
+        data: series.values.map((value) => (value === null ? null : { value, display: `${value}%` })),
+        itemStyle: {
+          color: palette[index] ?? token("--blue"),
+          opacity: isLarge ? 1 : 0.4,
+          borderColor: isLarge ? token("--cyan") : "transparent",
+          borderWidth: isLarge ? 1.5 : 0,
+        },
+        barMaxWidth: isLarge ? 34 : 26,
+        label: {
+          show: true,
+          position: "top" as const,
+          color: text,
+          fontSize: 16,
+          fontFamily: chartFont,
+          formatter: (params: { data?: unknown }) => {
+            const data = params.data;
+            if (typeof data === "object" && data !== null && "value" in data && data.value === 0) {
+              return "0%";
+            }
+            return "";
+          },
+        },
+      };
+    }),
   };
 }

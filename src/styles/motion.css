@@ -14,12 +14,7 @@
   animation-delay: calc(var(--d, 0) * 70ms);
 }
 
-.reveal .slides > section.present .arch-line line {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 700ms ease;
-}
-
-.stage-card,
+.stage-photo,
 .photo img,
 .lineup li {
   transition: transform 500ms ease;
@@ -34,11 +29,4 @@
     scroll-behavior: auto !important;
   }
 
-  .arch-line line {
-    stroke-dashoffset: 0;
-  }
-
-  .stage-card {
-    transform: none;
-  }
 }
