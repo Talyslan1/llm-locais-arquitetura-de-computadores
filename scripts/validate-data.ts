@@ -87,6 +87,27 @@ if (!texts.includes("Raul") || !texts.includes("Givanildo") || !texts.includes("
   fail("As observações cruzadas deixaram de citar os quatro resultados previstos.");
 }
 
+if (talys && (!talys.image.illustrative || !talys.image.caption.includes("Ryzen 5 2600") || !talys.image.caption.includes("75000U"))) {
+  fail("A foto de Talys precisa ser ilustrativa e dizer que é um Ryzen 5 2600, não o modelo informado.");
+}
+
+const raul = participants.find((participant) => participant.id === "raul");
+if (!raul?.image.illustrative || !raul.image.caption.includes("RTX 3050 Laptop")) {
+  fail("A foto de Raul precisa avisar que não é a RTX 3050 Laptop.");
+}
+
+if (!miguel?.image.illustrative || !miguel.image.caption.includes("i9-9900K") || !miguel.image.caption.includes("i3-1215U")) {
+  fail("A foto de Miguel precisa ser o i9-9900K ilustrativo, não o i3-1215U.");
+}
+if (miguel && (miguel.image.file.includes("alder") || miguel.image.caption.toLowerCase().includes("die"))) {
+  fail("A foto de Miguel não pode voltar a ser a micrografia do die.");
+}
+
+const givanildo = participants.find((participant) => participant.id === "givanildo");
+if (givanildo?.image.file !== "apple-m1.jpg" || givanildo.image.license !== "CC0") {
+  fail("A foto de Givanildo precisa continuar sendo o Apple M1 em CC0.");
+}
+
 for (const image of imageCatalog) {
   if (!existsSync(new URL(`../public/images/${image.file}`, import.meta.url))) {
     fail(`Imagem ausente: ${image.file}`);

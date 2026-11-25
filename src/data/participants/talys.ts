@@ -17,7 +17,7 @@ export const talys: Participant = {
     gpuSummary: "Radeon integrada",
     os: "Bazzite",
   },
-  image: hardwareImages.ryzen5700u,
+  image: hardwareImages.ryzen52600,
   neutral: {
     ram: { used: { value: 4, unit: "GiB", decimals: 0 }, total: { value: 15, unit: "GiB", decimals: 0 } },
     cpu: { percent: 1, decimals: 0, kind: "average" },

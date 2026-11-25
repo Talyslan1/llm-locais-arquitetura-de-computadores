@@ -24,7 +24,7 @@ export const miguel: Participant = {
     gpuSummary: "Intel UHD Graphics",
     os: "CachyOS",
   },
-  image: hardwareImages.alderLakeDie,
+  image: hardwareImages.intelI9,
   neutral: {
     ram: { used: { value: 1.7, unit: "GiB", decimals: 1 }, total: { value: 19, unit: "GiB", decimals: 0 } },
     cpu: { percent: 2.4, decimals: 1, kind: "average" },

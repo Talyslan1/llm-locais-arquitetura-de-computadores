@@ -19,7 +19,7 @@ export const raul: Participant = {
     gpuSummary: "Intel Graphics e RTX 3050",
     os: "Windows 11",
   },
-  image: hardwareImages.rtx3050,
+  image: hardwareImages.rtx2080,
   neutral: {
     ram: { used: { value: 7.4, unit: "GB", decimals: 1 }, total: { value: 15.8, unit: "GB", decimals: 1 } },
     cpu: { percent: 3, decimals: 0, kind: "average" },
