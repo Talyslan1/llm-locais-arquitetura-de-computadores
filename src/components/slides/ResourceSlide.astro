@@ -26,7 +26,7 @@ const rows = resourceTable();
         <tbody>
           {
             rows.map((row) => (
-              <tr>
+              <tr class:list={{ "row-4b": row.label.endsWith("4B") }}>
                 <th scope="row">{row.label}</th>
                 {row.cells.map((cell) => <td>{cell}</td>)}
               </tr>

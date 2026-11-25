@@ -4,9 +4,10 @@ import type { HardwareImage } from "../../data/types.ts";
 
 interface Props {
   image: HardwareImage;
+  showCaption?: boolean;
 }
 
-const { image } = Astro.props;
+const { image, showCaption = true } = Astro.props;
 ---
 
 <figure class="photo">
@@ -17,8 +18,12 @@ const { image } = Astro.props;
     height={image.height}
     decoding="async"
   />
-  <figcaption>
-    <span>{image.illustrative ? `Ilustrativa · ${image.caption}` : image.caption}</span>
-    <span class="credit">{image.author} · {image.license}</span>
-  </figcaption>
+  {
+    showCaption && (
+      <figcaption>
+        <span>{image.illustrative ? `Ilustrativa · ${image.caption}` : image.caption}</span>
+        <span class="credit">{image.author} · {image.license}</span>
+      </figcaption>
+    )
+  }
 </figure>

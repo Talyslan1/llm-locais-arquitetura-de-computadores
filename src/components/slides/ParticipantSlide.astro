@@ -16,7 +16,6 @@ const facts = listHardwareFacts(participant.hardware);
 const rows = metricRows(participant);
 const small = participant.models["qwen35-0.8b"];
 const large = participant.models["qwen35-4b"];
-const isPending = participant.hardware.cpuConfirmation === "pending";
 ---
 
 <section
@@ -33,30 +32,18 @@ const isPending = participant.hardware.cpuConfirmation === "pending";
       <div class="person-copy">
         <div class="rise">
           <h2>{participant.name}</h2>
-          {isPending && <p class="badge">Identificação pendente</p>}
         </div>
         <ul class="spec-list rise" style="--d: 1">
           {
             facts.map((fact) => (
-              <li>
-                <Icon name={fact.icon} />
+              <li data-node={fact.icon}>
+                <Icon name={fact.icon} size={28} />
                 <span>{fact.label}</span>
                 <strong>{fact.value}</strong>
               </li>
             ))
           }
         </ul>
-        <div class="arch rise" style="--d: 2">
-          <svg class="arch-line" viewBox="0 0 520 8" aria-hidden="true">
-            <line x1="8" y1="4" x2="512" y2="4"></line>
-          </svg>
-          <ul>
-            <li class="node-cpu">CPU</li>
-            <li>RAM</li>
-            <li class="node-gpu">GPU</li>
-            <li>Disco</li>
-          </ul>
-        </div>
         <div class="times">
           <div class="time-block rise" style="--d: 3">
             <span>Qwen 0.8B</span>
@@ -67,7 +54,12 @@ const isPending = participant.hardware.cpuConfirmation === "pending";
             <Count value={large.responseSeconds} decimals={large.responseDecimals} prefix={large.responseApproximate ? "~" : ""} suffix=" s" />
           </div>
         </div>
-        <MetricTable rows={rows} />
+        <MetricTable
+          rows={rows}
+          emphasis={participant.emphasis}
+          integratedGpu={large.gpus.find((gpu) => gpu.role === "integrated")?.name}
+          dedicatedGpu={large.gpus.find((gpu) => gpu.role === "dedicated")?.name}
+        />
         {swapIsEntirelyUnreported(participant) && <p class="swap-note">Swap não informado.</p>}
         <p class="observation rise" style="--d: 5">{participant.observation}</p>
       </div>

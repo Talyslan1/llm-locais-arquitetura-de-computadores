@@ -1,6 +1,6 @@
 ---
 import SlideFrame from "../deck/SlideFrame.astro";
-import { methodSteps, models, prompt, toolName } from "../../data/experiments.ts";
+import { methodSteps, models, prompt, promptReason, toolName } from "../../data/experiments.ts";
 ---
 
 <section>
@@ -17,18 +17,27 @@ import { methodSteps, models, prompt, toolName } from "../../data/experiments.ts
           ))
         }
       </ol>
-      <div class="method-foot rise" style={`--d: ${methodSteps.length}`}>
+      <div class="prompt-panel rise" style={`--d: ${methodSteps.length}`}>
         <div class="model-pills">
           {models.map((model) => <span>{model.label}</span>)}
           <span>{toolName}</span>
         </div>
-        <blockquote>
-          <p>{prompt}</p>
-        </blockquote>
+        <div class="prompt-grid">
+          <div>
+            <p class="prompt-kicker">Prompt</p>
+            <blockquote>
+              <p>“{prompt}”</p>
+            </blockquote>
+          </div>
+          <div>
+            <p class="prompt-kicker">Por quê</p>
+            <p class="prompt-body">{promptReason}</p>
+          </div>
+        </div>
       </div>
     </div>
   </SlideFrame>
   <aside class="notes">
-    O prompt foi o mesmo. A ferramenta foi o LM Studio. O monitoramento não foi padronizado entre os sistemas.
+    O prompt foi o mesmo em todas as máquinas. A ferramenta foi o LM Studio. O monitoramento não foi padronizado entre os sistemas.
   </aside>
 </section>

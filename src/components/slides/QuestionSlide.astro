@@ -22,7 +22,7 @@ import { participants } from "../../data/participants/index.ts";
               <strong>{participant.name}</strong>
               <span>{participant.hardware.cpu}</span>
               <span>0.8B · {formatSeconds(participant.models["qwen35-0.8b"])}</span>
-              <span>4B · {formatSeconds(participant.models["qwen35-4b"])}</span>
+              <span class="emphasis-4b">4B · {formatSeconds(participant.models["qwen35-4b"])}</span>
             </li>
           ))
         }

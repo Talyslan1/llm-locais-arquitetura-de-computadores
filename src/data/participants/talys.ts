@@ -5,7 +5,7 @@ export const talys: Participant = {
   id: "talys",
   name: "Talys",
   accent: "blue",
-  composition: "hero-top",
+  composition: "hero-left",
   emphasis: "integrated-gpu",
   hardware: {
     cpu: "AMD Ryzen 75000U",

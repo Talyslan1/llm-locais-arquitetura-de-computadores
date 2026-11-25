@@ -86,7 +86,7 @@ export interface Participant {
   id: string;
   name: string;
   accent: Accent;
-  composition: "hero-left" | "hero-top";
+  composition: "hero-left";
   emphasis: "integrated-gpu" | "fastest-4b" | "dual-gpu" | "ram-4b";
   hardware: HardwareProfile;
   image: HardwareImage;

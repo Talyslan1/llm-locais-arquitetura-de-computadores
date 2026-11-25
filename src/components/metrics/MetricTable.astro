@@ -1,11 +1,27 @@
 ---
-import type { MetricRow } from "../../data/types.ts";
+import type { MetricRow, Participant } from "../../data/types.ts";
 
 interface Props {
   rows: readonly MetricRow[];
+  emphasis: Participant["emphasis"];
+  integratedGpu?: string;
+  dedicatedGpu?: string;
 }
 
-const { rows } = Astro.props;
+const { rows, emphasis, integratedGpu, dedicatedGpu } = Astro.props;
+
+function accent(row: MetricRow): "large" | "pair" | null {
+  if (emphasis === "ram-4b" && row.label === "RAM") {
+    return "large";
+  }
+  if (emphasis === "integrated-gpu" && integratedGpu !== undefined && row.label === integratedGpu) {
+    return "large";
+  }
+  if (emphasis === "dual-gpu" && dedicatedGpu !== undefined && row.label === dedicatedGpu) {
+    return "pair";
+  }
+  return null;
+}
 ---
 
 <table class="metrics rise" style="--d: 4">
@@ -15,28 +31,31 @@ const { rows } = Astro.props;
       <th scope="col">Métrica</th>
       <th scope="col">Neutro</th>
       <th scope="col">0.8B</th>
-      <th scope="col">4B</th>
+      <th scope="col" class="col-4b">4B</th>
     </tr>
   </thead>
   <tbody>
     {
-      rows.map((row) => (
-        <tr>
-          <th scope="row">{row.label}</th>
-          <td>
-            {row.neutral.text}
-            {row.neutral.detail && <small>{row.neutral.detail}</small>}
-          </td>
-          <td>
-            {row.small.text}
-            {row.small.detail && <small>{row.small.detail}</small>}
-          </td>
-          <td class="col-4b">
-            {row.large.text}
-            {row.large.detail && <small>{row.large.detail}</small>}
-          </td>
-        </tr>
-      ))
+      rows.map((row) => {
+        const mark = accent(row);
+        return (
+          <tr class:list={{ "is-emphasis": mark !== null }}>
+            <th scope="row">{row.label}</th>
+            <td>
+              {row.neutral.text}
+              {row.neutral.detail && <small>{row.neutral.detail}</small>}
+            </td>
+            <td class:list={{ "is-emphasis-value": mark === "pair" }}>
+              {row.small.text}
+              {row.small.detail && <small>{row.small.detail}</small>}
+            </td>
+            <td class:list={["col-4b", { "is-emphasis-value": mark !== null }]}>
+              {row.large.text}
+              {row.large.detail && <small>{row.large.detail}</small>}
+            </td>
+          </tr>
+        );
+      })
     }
   </tbody>
 </table>

@@ -10,7 +10,7 @@ import { participants } from "../../data/participants/index.ts";
       {
         participants.map((participant, index) => (
           <li class="rise" style={`--d: ${index}`} data-accent={participant.accent}>
-            <PhotoFrame image={participant.image} />
+            <PhotoFrame image={participant.image} showCaption={false} />
             <div>
               <strong>{participant.name}</strong>
               <span>{participant.hardware.cpu}</span>
@@ -24,6 +24,6 @@ import { participants } from "../../data/participants/index.ts";
     </ul>
   </SlideFrame>
   <aside class="notes">
-    Apresente cada máquina antes dos números. Talys ainda tem o processador pendente de confirmação. As fotos de Raul e Miguel são ilustrativas.
+    Apresente cada máquina antes dos números. Talys ainda tem o processador pendente de confirmação. As fotos de Talys, Raul e Miguel são ilustrativas.
   </aside>
 </section>

@@ -22,7 +22,7 @@ const panels = memoryPanels();
               <strong>{panel.name}</strong>
               {
                 panel.bars.map((bar) => (
-                  <span>
+                  <span class:list={{ "delta-4b": bar.label === "4B" }}>
                     {bar.label} · {formatMeasured(bar.value, bar.decimals)} {panel.unit}
                   </span>
                 ))

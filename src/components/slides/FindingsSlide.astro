@@ -1,6 +1,6 @@
 ---
 import SlideFrame from "../deck/SlideFrame.astro";
-import { closingLine, findings, limitations, nextSteps } from "../../data/experiments.ts";
+import { findings, limitations } from "../../data/experiments.ts";
 
 const items = findings();
 ---
@@ -18,24 +18,15 @@ const items = findings();
           ))
         }
       </ul>
-      <div class="finding-side rise" style={`--d: ${items.length}`}>
-        <div>
-          <h2>Limites</h2>
-          <ul>
-            {limitations.map((item) => <li>{item}</li>)}
-          </ul>
-        </div>
-        <div>
-          <h2>Semana 2</h2>
-          <ul>
-            {nextSteps.map((item) => <li>{item}</li>)}
-          </ul>
-        </div>
-      </div>
-      <p class="closing rise" style={`--d: ${items.length + 1}`}>{closingLine}</p>
+      <aside class="limits rise" style={`--d: ${items.length}`}>
+        <h2>Limites deste experimento</h2>
+        <ol>
+          {limitations.map((item) => <li>{item}</li>)}
+        </ol>
+      </aside>
     </div>
   </SlideFrame>
   <aside class="notes">
-    Feche com a pergunta. As observações descrevem este ensaio, não uma hierarquia de máquinas.
+    Os limites são restrições deste ensaio. As observações descrevem o que foi medido, não uma hierarquia de máquinas.
   </aside>
 </section>

@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { resourceSeries } from "../src/data/charts.ts";
 import { memoryDelta } from "../src/data/experiments.ts";
 import { imageCatalog } from "../src/data/images.ts";
 import { findings, largestReportedRamIncrease } from "../src/data/experiments.ts";
@@ -87,6 +88,10 @@ if (!texts.includes("Raul") || !texts.includes("Givanildo") || !texts.includes("
   fail("As observações cruzadas deixaram de citar os quatro resultados previstos.");
 }
 
+if (participants.some((participant) => participant.composition !== "hero-left")) {
+  fail("Os quatro slides individuais precisam do mesmo layout lateral.");
+}
+
 if (talys && (!talys.image.illustrative || !talys.image.caption.includes("Ryzen 5 2600") || !talys.image.caption.includes("75000U"))) {
   fail("A foto de Talys precisa ser ilustrativa e dizer que é um Ryzen 5 2600, não o modelo informado.");
 }
@@ -106,6 +111,19 @@ if (miguel && (miguel.image.file.includes("alder") || miguel.image.caption.toLow
 const givanildo = participants.find((participant) => participant.id === "givanildo");
 if (givanildo?.image.file !== "apple-m1.jpg" || givanildo.image.license !== "CC0") {
   fail("A foto de Givanildo precisa continuar sendo o Apple M1 em CC0.");
+}
+
+const miguelIndex = participants.findIndex((participant) => participant.id === "miguel");
+const raulIndex = participants.findIndex((participant) => participant.id === "raul");
+for (const series of resourceSeries()) {
+  const miguelValue = series.values[miguelIndex];
+  if ((series.name.startsWith("iGPU") || series.name.startsWith("dGPU")) && miguelValue === 0) {
+    fail("A GPU ausente de Miguel não pode entrar no gráfico como zero.");
+  }
+}
+const dedicatedSmall = resourceSeries().find((series) => series.name === "dGPU · 0.8B");
+if (dedicatedSmall?.values[raulIndex] !== 0) {
+  fail("O 0% medido da RTX de Raul no 0.8B precisa permanecer zero.");
 }
 
 for (const image of imageCatalog) {

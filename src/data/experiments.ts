@@ -6,6 +6,9 @@ import type { MemoryUnit, ModelId, Participant, Quantity } from "./types.ts";
 export const prompt =
   "Explique, em português brasileiro, o que é arquitetura de computadores. Apresente uma definição, explique o papel da CPU, RAM e GPU e dê um exemplo prático de como esses componentes trabalham juntos para executar um programa. Seja objetivo e utilize no máximo 60 palavras.";
 
+export const promptReason =
+  "O mesmo texto foi enviado em todas as máquinas, para que os tempos possam ser comparados. Ele pergunta sobre CPU, RAM e GPU porque esse é o assunto do experimento. O limite de 60 palavras evita que a geração se estenda.";
+
 export const toolName = "LM Studio";
 
 export const models = [
@@ -30,16 +33,6 @@ export const limitations = [
   "Monitores de sistema diferentes.",
   "Temperatura e energia não medidas de forma sistemática.",
 ] as const;
-
-export const nextSteps = [
-  "Três repetições.",
-  "Tokens por segundo.",
-  "Memória utilizada.",
-  "Primeira abertura versus segunda abertura.",
-  "Escada de tamanhos.",
-] as const;
-
-export const closingLine = "Hardware diferente. Comportamentos diferentes. O que realmente explica a diferença?";
 
 export const memoryFootnote =
   "A diferença é o aumento do consumo reportado pelo sistema, não o tamanho dos pesos do modelo. GB e GiB não foram convertidos.";
