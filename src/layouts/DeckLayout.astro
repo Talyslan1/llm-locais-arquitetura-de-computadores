@@ -1,4 +1,5 @@
 ---
+import { assetUrl } from "../lib/assets.ts";
 import "../styles/tokens.css";
 import "reveal.js/reveal.css";
 import "@fontsource/poppins/latin-400.css";
@@ -30,7 +31,7 @@ const contentSecurityPolicy = [
     <meta name="referrer" content="no-referrer" />
     <meta name="description" content="Resultados da semana 1: LLMs locais e arquitetura de computadores." />
     {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />}
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={assetUrl("favicon.svg")} type="image/svg+xml" />
     <title>LLMs locais e arquitetura de computadores</title>
   </head>
   <body>
