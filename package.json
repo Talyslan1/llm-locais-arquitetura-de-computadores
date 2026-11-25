@@ -1,0 +1,26 @@
+{
+  "name": "llm-locais-arquitetura-de-computadores",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:pages": "GITHUB_PAGES=true astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "validate": "node --experimental-strip-types scripts/validate-data.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.2.8",
+    "echarts": "^6.0.0",
+    "lucide": "^1.0.0",
+    "reveal.js": "^6.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@types/node": "^26.6.10",
+    "astro": "^5.16.0",
+    "typescript": "^5.9.3"
+  }
+}
