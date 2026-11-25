@@ -1,0 +1,34 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { methodSteps, models, prompt, toolName } from "../../data/experiments.ts";
+---
+
+<section>
+  <SlideFrame kicker="Protocolo">
+    <div class="method">
+      <ol class="steps">
+        {
+          methodSteps.map((step, index) => (
+            <li class="rise" style={`--d: ${index}`}>
+              <span>{step.index}</span>
+              <strong>{step.title}</strong>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="method-foot rise" style={`--d: ${methodSteps.length}`}>
+        <div class="model-pills">
+          {models.map((model) => <span>{model.label}</span>)}
+          <span>{toolName}</span>
+        </div>
+        <blockquote>
+          <p>{prompt}</p>
+        </blockquote>
+      </div>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    O prompt foi o mesmo. A ferramenta foi o LM Studio. O monitoramento não foi padronizado entre os sistemas.
+  </aside>
+</section>

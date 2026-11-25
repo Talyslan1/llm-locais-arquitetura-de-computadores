@@ -1,0 +1,29 @@
+---
+import PhotoFrame from "../deck/PhotoFrame.astro";
+import SlideFrame from "../deck/SlideFrame.astro";
+import { participants } from "../../data/participants/index.ts";
+---
+
+<section>
+  <SlideFrame kicker="Quatro máquinas">
+    <ul class="lineup">
+      {
+        participants.map((participant, index) => (
+          <li class="rise" style={`--d: ${index}`} data-accent={participant.accent}>
+            <PhotoFrame image={participant.image} />
+            <div>
+              <strong>{participant.name}</strong>
+              <span>{participant.hardware.cpu}</span>
+              <span>{participant.hardware.ram}</span>
+              <span>{participant.hardware.gpuSummary}</span>
+              <span>{participant.hardware.os}</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </SlideFrame>
+  <aside class="notes">
+    Apresente cada máquina antes dos números. Talys ainda tem o processador pendente de confirmação. As fotos de Raul e Miguel são ilustrativas.
+  </aside>
+</section>

@@ -1,0 +1,24 @@
+---
+import { formatMeasured } from "../../data/format.ts";
+
+interface Props {
+  value: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+}
+
+const { value, decimals = 0, prefix = "", suffix = "" } = Astro.props;
+const label = `${prefix}${formatMeasured(value, decimals)}${suffix}`;
+---
+
+<span
+  class="count"
+  data-count={value}
+  data-decimals={decimals}
+  data-prefix={prefix}
+  data-suffix={suffix}
+  aria-label={label}
+>
+  {label}
+</span>

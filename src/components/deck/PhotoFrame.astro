@@ -1,0 +1,24 @@
+---
+import { imageUrl } from "../../lib/assets.ts";
+import type { HardwareImage } from "../../data/types.ts";
+
+interface Props {
+  image: HardwareImage;
+}
+
+const { image } = Astro.props;
+---
+
+<figure class="photo">
+  <img
+    src={imageUrl(image.file)}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    decoding="async"
+  />
+  <figcaption>
+    <span>{image.illustrative ? `Ilustrativa · ${image.caption}` : image.caption}</span>
+    <span class="credit">{image.author} · {image.license}</span>
+  </figcaption>
+</figure>

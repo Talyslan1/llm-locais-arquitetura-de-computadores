@@ -1,0 +1,42 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { hardwareImages } from "../../data/images.ts";
+import { imageUrl } from "../../lib/assets.ts";
+
+const stage = [
+  { image: hardwareImages.appleM1, label: "Apple M1" },
+  { image: hardwareImages.ryzen5700u, label: "Ryzen" },
+  { image: hardwareImages.rtx3050, label: "RTX 3050" },
+  { image: hardwareImages.alderLakeDie, label: "Alder Lake" },
+];
+---
+
+<section>
+  <SlideFrame kicker="Semana 1 · Experimento">
+    <div class="opening">
+      <div class="opening-copy">
+        <h1 class="rise">
+          <span>LLMs locais</span>
+          <span class="line">e arquitetura de computadores</span>
+        </h1>
+        <p class="lede rise" style="--d: 1">
+          Investigando como o hardware influencia a execução de modelos de linguagem.
+        </p>
+        <p class="hint">Setas ou laterais mudam o slide · F tela cheia · Esc visão geral · Home início · S apresentador</p>
+      </div>
+      <div class="open-stage" data-parallax>
+        {
+          stage.map((item, index) => (
+            <figure class="stage-card" style={`--d: ${index}`}>
+              <img src={imageUrl(item.image.file)} alt={item.image.alt} width={item.image.width} height={item.image.height} />
+              <figcaption>{item.label}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Abra com a pergunta do experimento, não com a teoria. As fotos são componentes reais; algumas são ilustrativas e estão legendadas.
+  </aside>
+</section>

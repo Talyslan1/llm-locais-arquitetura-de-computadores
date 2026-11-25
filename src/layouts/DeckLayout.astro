@@ -1,0 +1,46 @@
+---
+import "../styles/tokens.css";
+import "reveal.js/reveal.css";
+import "@fontsource-variable/geist/index.css";
+import "../styles/deck.css";
+import "../styles/slides.css";
+import "../styles/motion.css";
+
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "img-src 'self' data:",
+  "style-src 'self' 'unsafe-inline'",
+  "script-src 'self'",
+  "font-src 'self'",
+  "connect-src 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+  "frame-ancestors 'self'",
+].join("; ");
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="Resultados da semana 1: LLMs locais e arquitetura de computadores." />
+    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />}
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <title>LLMs locais e arquitetura de computadores</title>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <slot />
+      </div>
+    </div>
+    <button class="edge edge-prev" type="button" aria-label="Slide anterior"></button>
+    <button class="edge edge-next" type="button" aria-label="Próximo slide"></button>
+    <script>
+      import "../scripts/deck.ts";
+    </script>
+  </body>
+</html>

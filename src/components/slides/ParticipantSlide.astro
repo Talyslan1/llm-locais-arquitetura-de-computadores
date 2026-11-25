@@ -1,0 +1,77 @@
+---
+import Icon from "../Icon.astro";
+import PhotoFrame from "../deck/PhotoFrame.astro";
+import Count from "../metrics/Count.astro";
+import MetricTable from "../metrics/MetricTable.astro";
+import { listHardwareFacts } from "../../data/hardware.ts";
+import { metricRows, swapIsEntirelyUnreported } from "../../data/metrics.ts";
+import type { Participant } from "../../data/types.ts";
+
+interface Props {
+  participant: Participant;
+}
+
+const { participant } = Astro.props;
+const facts = listHardwareFacts(participant.hardware);
+const rows = metricRows(participant);
+const small = participant.models["qwen35-0.8b"];
+const large = participant.models["qwen35-4b"];
+const isPending = participant.hardware.cpuConfirmation === "pending";
+---
+
+<section
+  class:list={["person", `composition-${participant.composition}`]}
+  data-accent={participant.accent}
+  data-emphasis={participant.emphasis}
+>
+  <div class="slide">
+    <header class="slide-top">
+      <p class="kicker">Resultado individual</p>
+    </header>
+    <div class="person-layout">
+      <PhotoFrame image={participant.image} />
+      <div class="person-copy">
+        <div class="rise">
+          <h2>{participant.name}</h2>
+          {isPending && <p class="badge">Identificação pendente</p>}
+        </div>
+        <ul class="spec-list rise" style="--d: 1">
+          {
+            facts.map((fact) => (
+              <li>
+                <Icon name={fact.icon} />
+                <span>{fact.label}</span>
+                <strong>{fact.value}</strong>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="arch rise" style="--d: 2">
+          <svg class="arch-line" viewBox="0 0 520 8" aria-hidden="true">
+            <line x1="8" y1="4" x2="512" y2="4"></line>
+          </svg>
+          <ul>
+            <li class="node-cpu">CPU</li>
+            <li>RAM</li>
+            <li class="node-gpu">GPU</li>
+            <li>Disco</li>
+          </ul>
+        </div>
+        <div class="times">
+          <div class="time-block rise" style="--d: 3">
+            <span>Qwen 0.8B</span>
+            <Count value={small.responseSeconds} decimals={small.responseDecimals} prefix={small.responseApproximate ? "~" : ""} suffix=" s" />
+          </div>
+          <div class="time-block time-4b rise" style="--d: 4">
+            <span>Qwen 4B</span>
+            <Count value={large.responseSeconds} decimals={large.responseDecimals} prefix={large.responseApproximate ? "~" : ""} suffix=" s" />
+          </div>
+        </div>
+        <MetricTable rows={rows} />
+        {swapIsEntirelyUnreported(participant) && <p class="swap-note">Swap não informado.</p>}
+        <p class="observation rise" style="--d: 5">{participant.observation}</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">{participant.observation} Não tratar o resultado como benchmark nem como causa isolada.</aside>
+</section>

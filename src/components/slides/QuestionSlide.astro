@@ -1,0 +1,35 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { formatSeconds } from "../../data/format.ts";
+import { participants } from "../../data/participants/index.ts";
+---
+
+<section>
+  <SlideFrame kicker="A pergunta">
+    <div class="question">
+      <blockquote>
+        <p class="rise">
+          Por que o mesmo modelo responde em 3 segundos em uma máquina e demora mais de um minuto em outra?
+        </p>
+      </blockquote>
+      <p class="footnote rise" style="--d: 1">
+        São testes diferentes: o menor tempo do 0.8B foi 3 s; o maior do 4B foi 76 s.
+      </p>
+      <ul class="preview">
+        {
+          participants.map((participant, index) => (
+            <li class="rise" style={`--d: ${2 + index}`} data-accent={participant.accent}>
+              <strong>{participant.name}</strong>
+              <span>{participant.hardware.cpu}</span>
+              <span>0.8B · {formatSeconds(participant.models["qwen35-0.8b"])}</span>
+              <span>4B · {formatSeconds(participant.models["qwen35-4b"])}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Leia a pergunta e só então mostre os quatro pares de tempo. Não compare 3 s com 76 s como se fossem o mesmo modelo.
+  </aside>
+</section>

@@ -1,0 +1,41 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { closingLine, findings, limitations, nextSteps } from "../../data/experiments.ts";
+
+const items = findings();
+---
+
+<section>
+  <SlideFrame kicker="Leitura do experimento">
+    <div class="findings">
+      <ul>
+        {
+          items.map((item, index) => (
+            <li class="rise" style={`--d: ${index}`}>
+              <span>{item.title}</span>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="finding-side rise" style={`--d: ${items.length}`}>
+        <div>
+          <h2>Limites</h2>
+          <ul>
+            {limitations.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2>Semana 2</h2>
+          <ul>
+            {nextSteps.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="closing rise" style={`--d: ${items.length + 1}`}>{closingLine}</p>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Feche com a pergunta. As observações descrevem este ensaio, não uma hierarquia de máquinas.
+  </aside>
+</section>

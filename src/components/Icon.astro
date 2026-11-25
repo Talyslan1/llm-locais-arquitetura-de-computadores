@@ -1,0 +1,13 @@
+---
+import type { HardwareIcon } from "../data/types.ts";
+import { renderIcon } from "../lib/icons.ts";
+
+interface Props {
+  name: HardwareIcon;
+  size?: number;
+}
+
+const { name, size = 22 } = Astro.props;
+---
+
+<Fragment set:html={renderIcon(name, size)} />

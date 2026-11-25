@@ -1,0 +1,53 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { timeBars } from "../../data/charts.ts";
+import { extremeResponse, modelById } from "../../data/experiments.ts";
+import { formatMeasured } from "../../data/format.ts";
+import type { ModelId } from "../../data/types.ts";
+
+interface Props {
+  modelId: ModelId;
+}
+
+const { modelId } = Astro.props;
+const model = modelById(modelId);
+const bars = timeBars(modelId);
+const fastest = extremeResponse(modelId, "min");
+const slowest = extremeResponse(modelId, "max");
+
+function label(seconds: number, decimals: number, approximate: boolean): string {
+  const prefix = approximate ? "~" : "";
+  return `${prefix}${formatMeasured(seconds, decimals)} s`;
+}
+---
+
+<section data-auto-animate>
+  <SlideFrame kicker="Tempo de resposta">
+    <div class="compare">
+      <div class="compare-copy">
+        <h2 data-id="time-title">{model.label}</h2>
+        <p>Ordem observada neste experimento, não um ranking de hardware.</p>
+        <ol class="rank">
+          {
+            bars.map((bar) => (
+              <li data-accent={bar.accent}>
+                <span>{bar.name}</span>
+                <strong>{label(bar.seconds, bar.decimals, bar.approximate)}</strong>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="callout rise" style="--d: 2" data-id="fastest">
+          Menor tempo · {fastest.name} · {label(fastest.models[modelId].responseSeconds, fastest.models[modelId].responseDecimals, fastest.models[modelId].responseApproximate)}
+        </p>
+        <p class="callout rise" style="--d: 3" data-id="slowest">
+          Maior tempo · {slowest.name} · {label(slowest.models[modelId].responseSeconds, slowest.models[modelId].responseDecimals, slowest.models[modelId].responseApproximate)}
+        </p>
+      </div>
+      <div class="chart" data-chart="time" data-model={modelId} aria-hidden="true"></div>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Mostre as barras e só então o menor e o maior tempo. A ordem pode mudar no outro modelo.
+  </aside>
+</section>

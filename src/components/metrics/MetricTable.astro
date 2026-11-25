@@ -1,0 +1,42 @@
+---
+import type { MetricRow } from "../../data/types.ts";
+
+interface Props {
+  rows: readonly MetricRow[];
+}
+
+const { rows } = Astro.props;
+---
+
+<table class="metrics rise" style="--d: 4">
+  <caption class="sr-only">RAM, CPU, GPU e swap no estado neutro, no Qwen 0.8B e no Qwen 4B</caption>
+  <thead>
+    <tr>
+      <th scope="col">Métrica</th>
+      <th scope="col">Neutro</th>
+      <th scope="col">0.8B</th>
+      <th scope="col">4B</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      rows.map((row) => (
+        <tr>
+          <th scope="row">{row.label}</th>
+          <td>
+            {row.neutral.text}
+            {row.neutral.detail && <small>{row.neutral.detail}</small>}
+          </td>
+          <td>
+            {row.small.text}
+            {row.small.detail && <small>{row.small.detail}</small>}
+          </td>
+          <td class="col-4b">
+            {row.large.text}
+            {row.large.detail && <small>{row.large.detail}</small>}
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

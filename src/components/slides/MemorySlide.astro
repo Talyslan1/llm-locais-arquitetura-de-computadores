@@ -1,0 +1,39 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { memoryPanels } from "../../data/charts.ts";
+import { memoryFootnote } from "../../data/experiments.ts";
+import { formatMeasured } from "../../data/format.ts";
+
+const panels = memoryPanels();
+---
+
+<section>
+  <SlideFrame kicker="Memória">
+    <div class="memory">
+      <div class="memory-head">
+        <h2>Aumento de RAM reportado</h2>
+        <p>{memoryFootnote}</p>
+      </div>
+      <div class="chart" data-chart="memory" aria-hidden="true"></div>
+      <ul class="delta-list">
+        {
+          panels.map((panel) => (
+            <li data-accent={panel.accent}>
+              <strong>{panel.name}</strong>
+              {
+                panel.bars.map((bar) => (
+                  <span>
+                    {bar.label} · {formatMeasured(bar.value, bar.decimals)} {panel.unit}
+                  </span>
+                ))
+              }
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Cada máquina permanece na própria unidade. Não converta GB e GiB no comentário oral.
+  </aside>
+</section>

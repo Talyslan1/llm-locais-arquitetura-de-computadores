@@ -1,0 +1,44 @@
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal .slides > section.present .rise {
+  animation: rise-in 0.7s cubic-bezier(0.22, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--d, 0) * 70ms);
+}
+
+.reveal .slides > section.present .arch-line line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 700ms ease;
+}
+
+.stage-card,
+.photo img,
+.lineup li {
+  transition: transform 500ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .arch-line line {
+    stroke-dashoffset: 0;
+  }
+
+  .stage-card {
+    transform: none;
+  }
+}

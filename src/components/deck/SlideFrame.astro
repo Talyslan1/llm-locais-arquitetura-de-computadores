@@ -1,0 +1,16 @@
+---
+interface Props {
+  kicker: string;
+}
+
+const { kicker } = Astro.props;
+---
+
+<div class="slide">
+  <header class="slide-top">
+    <p class="kicker">{kicker}</p>
+  </header>
+  <div class="slide-body">
+    <slot />
+  </div>
+</div>

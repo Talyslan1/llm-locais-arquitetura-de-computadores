@@ -1,0 +1,26 @@
+---
+import DeckLayout from "../layouts/DeckLayout.astro";
+import FindingsSlide from "../components/slides/FindingsSlide.astro";
+import LineupSlide from "../components/slides/LineupSlide.astro";
+import MemorySlide from "../components/slides/MemorySlide.astro";
+import MethodSlide from "../components/slides/MethodSlide.astro";
+import OpeningSlide from "../components/slides/OpeningSlide.astro";
+import ParticipantSlide from "../components/slides/ParticipantSlide.astro";
+import QuestionSlide from "../components/slides/QuestionSlide.astro";
+import ResourceSlide from "../components/slides/ResourceSlide.astro";
+import TimeSlide from "../components/slides/TimeSlide.astro";
+import { participants } from "../data/participants/index.ts";
+---
+
+<DeckLayout>
+  <OpeningSlide />
+  <QuestionSlide />
+  <MethodSlide />
+  <LineupSlide />
+  {participants.map((participant) => <ParticipantSlide participant={participant} />)}
+  <TimeSlide modelId="qwen35-0.8b" />
+  <TimeSlide modelId="qwen35-4b" />
+  <MemorySlide />
+  <ResourceSlide />
+  <FindingsSlide />
+</DeckLayout>

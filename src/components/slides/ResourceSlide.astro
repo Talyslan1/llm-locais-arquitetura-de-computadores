@@ -1,0 +1,42 @@
+---
+import SlideFrame from "../deck/SlideFrame.astro";
+import { resourceColumns, resourceTable } from "../../data/charts.ts";
+import { resourceFootnote } from "../../data/experiments.ts";
+
+const columns = resourceColumns();
+const rows = resourceTable();
+---
+
+<section>
+  <SlideFrame kicker="CPU e GPU">
+    <div class="resource">
+      <div class="memory-head">
+        <h2>Durante a execução</h2>
+        <p>{resourceFootnote}</p>
+      </div>
+      <div class="chart" data-chart="resource" aria-hidden="true"></div>
+      <table class="resource-table">
+        <caption class="sr-only">Percentuais reportados durante a geração. Traço significa que a máquina não tem essa GPU.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Medida</th>
+            {columns.map((column) => <th scope="col">{column}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                {row.cells.map((cell) => <td>{cell}</td>)}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </SlideFrame>
+  <aside class="notes">
+    Não compare o percentual da GPU do macOS com o do Windows. Miguel não teve offload. O zero da RTX no 0.8B foi medido.
+  </aside>
+</section>
