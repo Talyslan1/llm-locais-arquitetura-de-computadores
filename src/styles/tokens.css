@@ -1,5 +1,7 @@
 :root {
   color-scheme: dark;
+  /* Texto corrido dos slides. Mude só este valor (px). */
+  --copy: 26px;
   --bg: #07080c;
   --bg-raise: #121722;
   --text: #eef3f8;

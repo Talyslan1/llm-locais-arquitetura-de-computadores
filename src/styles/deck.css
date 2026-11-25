@@ -78,8 +78,8 @@ body {
   gap: 16px;
   margin: 0 0 36px;
   color: var(--text);
-  --size: 24px;
-  font-size: 24px;
+  --size: calc(var(--copy) * 0.9);
+  font-size: calc(var(--copy) * 0.9);
   font-weight: 520;
   letter-spacing: 0.2em;
   text-transform: uppercase;
